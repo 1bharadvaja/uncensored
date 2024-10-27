@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board List</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .thread-list { list-style-type: none; padding: 0; }
+        .thread-list li { margin-bottom: 10px; }
+        .create-thread { display: inline-block; margin-bottom: 20px; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Board List</h1>
+    <a href="create_thread.html" class="create-thread">Create New Thread</a>
+    <ul id="threadList" class="thread-list"></ul>
+
+    <script>
+        function loadThreads() {
+            const threads = JSON.parse(localStorage.getItem('threads') || '[]');
+            const threadList = document.getElementById('threadList');
+            threadList.innerHTML = '';
+            threads.forEach(thread => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="thread.html?id=${thread.id}&title=${encodeURIComponent(thread.title)}">${thread.title}</a>`;
+                threadList.appendChild(li);
+            });
+        }
+
+        loadThreads();
+    </script>
+</body>
+</html>
+

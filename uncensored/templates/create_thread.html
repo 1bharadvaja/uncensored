@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Thread</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        form { display: flex; flex-direction: column; }
+        input, textarea { margin-bottom: 10px; padding: 5px; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Create New Thread</h1>
+    <form id="createThreadForm">
+        <input type="text" id="threadTitle" placeholder="Thread Title" required>
+        <textarea id="threadContent" placeholder="Thread Content" rows="5" required></textarea>
+        <button type="submit">Create Thread</button>
+    </form>
+
+    <script>
+        document.getElementById('createThreadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('threadTitle').value;
+            const content = document.getElementById('threadContent').value;
+            const threadId = Date.now(); // Use timestamp as a simple unique ID
+            const threadUrl = `thread.html?id=${threadId}&title=${encodeURIComponent(title)}`;
+            
+            // Save thread data to localStorage
+            const threads = JSON.parse(localStorage.getItem('threads') || '[]');
+            threads.push({ id: threadId, title, content });
+            localStorage.setItem('threads', JSON.stringify(threads));
+            
+            // Redirect to the board list
+            window.location.href = 'board_list.html';
+        });
+    </script>
+</body>
+</html>
+
