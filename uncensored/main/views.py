@@ -31,7 +31,7 @@ def thread_detail(request, board_slug, thread_id):
             return redirect('thread_detail', board_slug=board_slug, thread_id=thread_id)
     else:
         form = ReplyForm()
-    return render(request, 'main/thread_detail.html', {'thread': thread, 'replies': replies, 'form': form})
+    return render(request, 'thread_detail.html', {'thread': thread, 'replies': replies, 'form': form})
 
 def thread_creation_page(request):
     return render(request, 'create_thread.html')
@@ -47,5 +47,22 @@ def create_thread(request, board_slug):
             return redirect('thread_detail', board_slug=board_slug, thread_id=thread.id)
     else:
         form = ThreadForm()
-    return render(request, 'create_thread.html', {'form': form, 'board': board})
+    return render(request, 'create_thread', {'form': form, 'board': board})
+
+#def create_thread(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        subject = data.get('subject')
+        content = data.get('content')
+        
+        new_thread = Thread.objects.create(subject=subject, content=content)
+        thread_url = reverse('thread_detail', kwargs={'thread_id': new_thread.id})
+        
+        return JsonResponse({'success': True, 'thread_url': thread_url})
+    
+    return JsonResponse({'success': False}, status=400)
+
+def thread_detail(request, thread_id):
+    thread = Thread.objects.get(id=thread_id)
+    return render(request, '<uuid:id>/thread.html', {'thread': thread})
 

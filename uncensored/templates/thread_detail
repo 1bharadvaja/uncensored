@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thread</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        button { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <button onclick="location.href=''">Back to Board List</button>
+    <h1 id="threadTitle"></h1>
+    <div id="threadContent"></div>
+
+    <script>
+        // Get thread ID and title from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const threadId = urlParams.get('id');
+        const threadTitle = urlParams.get('title');
+
+        // Display thread title
+        document.getElementById('threadTitle').textContent = decodeURIComponent(threadTitle);
+
+        // Retrieve thread content from localStorage
+        const threads = JSON.parse(localStorage.getItem('threads') || '[]');
+        const thread = threads.find(t => t.id.toString() === threadId);
+
+        if (thread) {
+            document.getElementById('threadContent').textContent = thread.content;
+        } else {
+            document.getElementById('threadContent').textContent = 'Thread not found.';
+        }
+    </script>
+</body>
+</html>
+

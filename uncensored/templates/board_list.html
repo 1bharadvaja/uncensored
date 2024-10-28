@@ -13,8 +13,10 @@
 </head>
 <body>
     <h1>Board List</h1>
-    <a href="create_thread.html" class="create-thread">Create New Thread</a>
+    <a href="create_thread" class="create-thread">Create New Thread</a>
     <ul id="threadList" class="thread-list"></ul>
+
+    {% block script %}
 
     <script>
         function loadThreads() {
@@ -23,13 +25,16 @@
             threadList.innerHTML = '';
             threads.forEach(thread => {
                 const li = document.createElement('li');
-                li.innerHTML = `<a href="thread.html?id=${thread.id}&title=${encodeURIComponent(thread.title)}">${thread.title}</a>`;
+
+                li.innerHTML = `<a href=${ thread.id }>${thread.title}</a>`;
                 threadList.appendChild(li);
             });
         }
 
         loadThreads();
     </script>
+
+    {% endblock %}
 </body>
 </html>
 
